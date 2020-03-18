@@ -13,6 +13,7 @@ class BaseConfig(object):
     LOG_FILENAME = 'strategy-service.log'
 
     EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', 'localhost:7000')
+    BAD_REQUEST_MAX_ATTEMPT = 1
 
     TICK_SIZE = 0.5
 
@@ -38,6 +39,7 @@ class ProdConfig(BaseConfig):
     EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', None)
     if not EXCHANGE_CONNECTOR_URL:
         raise Exception('Must inform a EXCHANGE_CONNECTOR_URL')
+    BAD_REQUEST_MAX_ATTEMPT = 3
 
 
 class Config():

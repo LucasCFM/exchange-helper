@@ -1,6 +1,7 @@
 import logging
 
-from sanic import Sanic
+
+from flask import Flask
 
 from app.config import Config
 from app.blueprints.order import router as order_router
@@ -11,7 +12,7 @@ CONFIG = Config().config_vars
 
 def create_app(*args, **kwargs):
     # Initialize app
-    app = Sanic('mother-exchange')
+    app = Flask('mother-exchange')
 
     # config app
     app.config.from_object(CONFIG)
