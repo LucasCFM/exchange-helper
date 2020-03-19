@@ -11,3 +11,15 @@ class ResponseMissingDataAttributeException(Exception):
 
     def get_attrs(self):
         return self.attrs
+
+
+# TODO: TO FINISH
+class AccountFailOverException(Exception):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+# TODO: TO FINISH
+class RequestWithoutExchangeException(AccountFailOverException):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

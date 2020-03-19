@@ -26,7 +26,7 @@ def create_app(*args, **kwargs):
         filename=CONFIG.LOG_FILENAME if CONFIG.LOG_SAVE else None,
         format=CONFIG.LOG_FORMAT
     )
-    logger = logging.getLogger('cors')
+    logger = logging.getLogger('main')
     logger.level = CONFIG.LOG_LEVEL
 
     @app.shell_context_processor

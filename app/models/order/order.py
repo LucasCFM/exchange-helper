@@ -1,6 +1,6 @@
 from app.models.instrument.instrument import Instrument
 from app.models.order.utils import VALID_ORDER_STATUS, VALID_ORDER_TYPE, VALID_ORDER_SIDE
-from app.models.order.error import InvalidOderStatusException, InvalidOderTypeException, InvalidOderSideException
+from app.models.order.errors import InvalidOderStatusException, InvalidOderTypeException, InvalidOderSideException
 
 
 class OrderSide(object):
@@ -78,14 +78,23 @@ class Order(object):
 
 
     def __init__(self,
-        instrument: Instrument, size: int, side: OrderSide
-    )
+        instrument: Instrument, type: OrderType, size: int, side: OrderSide, price: float,
+        status: OrderStatus, open: bool, timestamp: int, desc: str = '', statusDesc: str = ''
+    ):
+        self.instrument = instrument
+        self.type = type
+        self.size = size
+        self.side = side
+        self.price = price
+        self.status = status
+        self.open = open
+        self.timestamp = timestamp
+        self.description = desc
+        self.statusDescription = statusDesc
 
 
     def get(self, orderID: str = None, customID: str = None):
-        if not orderID and not customID:
-            raise Exception('Must specify a ID or custom one')
-        pass
+        raise NotImplementedError()
 
 
     def create(self,
@@ -95,7 +104,7 @@ class Order(object):
         price: float = None, description: str = None,
         customID: str = None,
     ):
-        pass
+        raise NotImplementedError()
 
 
     def update(self,
@@ -103,17 +112,11 @@ class Order(object):
         size: int = None,
         price: str = None
     ):
-        if not orderID and not customID:
-            raise Exception('Must specify a ID or custom one')
-        if not size and not price:
-            raise Exception('Must specify a size or price to update/change')
-        pass
+        raise NotImplementedError()
 
 
     def cancell(self, orderID: str = None, customID: str = None):
-        if not orderID and not customID:
-            raise Exception('Must specify a ID or custom one')
-        pass
+        raise NotImplementedError()
 
 
 

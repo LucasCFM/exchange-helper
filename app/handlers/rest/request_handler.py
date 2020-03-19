@@ -1,12 +1,12 @@
 import requests, json
 
 from app.handlers.rest.errors import ResponseMissingDataAttributeException
-from app.utils import get_logger
+from app.utils import getLogger
 
 from requests.models import Response
 
 
-logger = get_logger()
+logger = getLogger()
 
 
 REQUEST_HEADERS = {

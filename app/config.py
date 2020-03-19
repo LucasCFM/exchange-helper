@@ -7,12 +7,13 @@ class BaseConfig(object):
     RESPONSE_TIMEOUT = 10
     KEEP_ALIVE_TIMEOUT = 5
     
-    LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    LOG_FORMAT = '%(asctime)s - %(name)s - %(threadName)s - %(levelname)s - %(message)s'
     LOG_LEVEL = logging.DEBUG
     LOG_SAVE = True
     LOG_FILENAME = 'strategy-service.log'
 
-    EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', 'localhost:7000')
+    EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', 'localhost:3000/api')
+    EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', 'localhost:3000/api/binance')
     BAD_REQUEST_MAX_ATTEMPT = 1
 
     TICK_SIZE = 0.5
@@ -46,7 +47,7 @@ class Config():
     """ Class instance for singleton """
 
     class __Config():
-        """ Private singleton class"""
+        """ Private singleton class """
         def __init__(self, config: BaseConfig):
             self.config = config
 
