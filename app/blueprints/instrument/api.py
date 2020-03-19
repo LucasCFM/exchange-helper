@@ -11,7 +11,7 @@ APP_CONFIG = Config().config_vars
 logger = getLogger()
 
 
-def getInfo():
+def get():
     logger.info(f'Instrument API : {__name__}')
     pass
 

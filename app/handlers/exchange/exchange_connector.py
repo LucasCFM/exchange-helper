@@ -1,7 +1,7 @@
 import json
 
 from app.config import Config
-from app.utils import getOperationAttempt, getLogger, getAccountExchange
+from app.utils import getOperationAttempt, getLogger, getAccountExchange, getAccountID
 from app.handlers.rest.request_handler import RequestHandler
 from app.handlers.rest.response_handler import JsonResponse
 from app.models.instrument.instrument import Instrument
@@ -26,18 +26,25 @@ class ExchangeConnector( object ):
 
     def requestExchange(self, endpoint: str, verb: str = 'GET', params: dict = None, data: dict = None, timeout: int = None) -> Response:
         if data:
-            dataJson = json.loads( data )
+            data = json.dumps( data )
         
         if not timeout:
             timeout = self.timeout
 
-        uri = self.exchangeURI + f'/{getAccountExchange()}'
+        accountExchange = getAccountExchange()
+        accountID = getAccountID()
+        uri = self.exchangeURI + f'/{accountExchange}'
+        headers = {
+            'exchangeName': accountExchange,
+            'accountId': accountID
+        }
 
         logger.info(f'Requesting exchange: {uri}{endpoint} - {verb} - {params} - {data}')
         response = RequestHandler.send(
             verb= verb, url= uri, route= endpoint,
-            params= params, json= dataJson,
-            timeout= timeout
+            params= params, json= data,
+            timeout= timeout,
+            headers= headers
         )
 
         try:
@@ -74,8 +81,8 @@ class ExchangeConnector( object ):
 
 
 
-    ###---### ORDER ###---###
-    def getOrder(self, orderID: str = None, customID: str = None) -> Response:
+    ######### ORDER #########
+    def getOrder(self, instrumentName, orderID: str = None, customID: str = None) -> Response:
         if not orderID and not customID:
             raise AttributeError( f'Must specify a order ID or custom ID' )
         
@@ -87,9 +94,10 @@ class ExchangeConnector( object ):
             attrs = {'orderId': orderID}
         else:
             attrs = {'orderId': customID} # TODO : Ask Guilherme if there custom id implemented
+        data = {'instrumentName': f'{instrumentName}'}
         
         logger.info(f'Getting order: {attrs}')
-        return self.requestExchange(endpoint, params=attrs)
+        return self.requestExchange(endpoint, params=attrs, data=data)
 
 
     def getAllOrders(self) -> Response:
@@ -177,6 +185,7 @@ class ExchangeConnector( object ):
         return self.requestExchange(endpoint, params=attrs)
     
 
+    ###---### Position ###---###
     def getBalance(self, instrument: Instrument) -> Response:
         logger.info(f'Getting all orders')
 
@@ -187,7 +196,7 @@ class ExchangeConnector( object ):
 
 
 
-    ###---### Instrument ###---###
+    ######### INSTRUMENT #########
     def getInstrumentInfo(self) -> Response:
         logger.info(f'Getting all orders')
 

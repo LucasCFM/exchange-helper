@@ -11,12 +11,10 @@ logger = getLogger()
 
 REQUEST_HEADERS = {
     'Accept': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
+    'Content-Type': 'application/json',
 }
 
 SESSION = requests.session()
-SESSION.headers.update( {'Content-Type': 'application/json'} )
-SESSION.headers.update( {'accept': 'application/json'} )
 
 
 class RequestHandler(object):
@@ -39,12 +37,16 @@ class RequestHandler(object):
 
     # TODO: Add attribute for headers, if there any should update header dict
     @staticmethod
-    def send(verb: str, url: str, route: str = None, params: dict = None, json: dict = None, timeout: int = 7) -> Response:
+    def send(verb: str, url: str, route: str = None, params: dict = None, json: dict = None, timeout: int = 7, headers: dict = None) -> Response:
         if route: url += route
         logger.info( f'Requesting ({verb.upper()}) {url}?{params}: {json}' )
         
+        sendingHeaders = REQUEST_HEADERS
+        if headers: sendingHeaders.update( headers )
+        logger.debug(f'HEADERS: {sendingHeaders}')
+
         req = requests.Request(
-            verb, url, json=json, params=params, headers=REQUEST_HEADERS
+            verb, url, json=json, params=params, headers=sendingHeaders
         )
         prepped = SESSION.prepare_request( req )
         response = SESSION.send( prepped, timeout=timeout )

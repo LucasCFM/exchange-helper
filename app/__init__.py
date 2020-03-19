@@ -4,7 +4,7 @@ import logging
 from flask import Flask
 
 from app.config import Config
-from app.blueprints.order import router as order_router
+from app.blueprints.router import api
 
 
 CONFIG = Config().config_vars
@@ -18,7 +18,7 @@ def create_app(*args, **kwargs):
     app.config.from_object(CONFIG)
 
     # register app routes
-    app.register_blueprint(order_router.bp)
+    app.register_blueprint(api)
 
     # set logging
     logging.basicConfig(

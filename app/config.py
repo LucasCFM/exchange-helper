@@ -10,10 +10,9 @@ class BaseConfig(object):
     LOG_FORMAT = '%(asctime)s - %(name)s - %(threadName)s - %(levelname)s - %(message)s'
     LOG_LEVEL = logging.DEBUG
     LOG_SAVE = True
-    LOG_FILENAME = 'strategy-service.log'
+    LOG_FILENAME = 'exchange-helper.log'
 
-    EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', 'localhost:3000/api')
-    EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', 'localhost:3000/api/binance')
+    EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', 'http://localhost:3000/api')
     BAD_REQUEST_MAX_ATTEMPT = 1
 
     TICK_SIZE = 0.5
@@ -37,7 +36,7 @@ class ProdConfig(BaseConfig):
     
     LOG_LEVEL = logging.DEBUG # TODO: Change to INFO
     
-    EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', None)
+    EXCHANGE_CONNECTOR_URL = os.getenv('EXCHANGE_CONNECTOR_URL', 'http://localhost:3000/api')
     if not EXCHANGE_CONNECTOR_URL:
         raise Exception('Must inform a EXCHANGE_CONNECTOR_URL')
     BAD_REQUEST_MAX_ATTEMPT = 3

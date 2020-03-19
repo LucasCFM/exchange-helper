@@ -1,4 +1,5 @@
-from logging import getLogger, Logger
+import logging
+from logging import Logger
 
 from flask import request
 
@@ -7,7 +8,7 @@ from app.handlers.rest.errors import RequestWithoutExchangeException
 
 
 def getLogger(name='main') -> Logger:
-    return getLogger(name)
+    return logging.getLogger(name)
 
 
 def getOperationAttempt() -> int:
@@ -28,3 +29,13 @@ def getAccountExchange() -> str:
         raise RequestWithoutExchangeException()
     
     return exchange
+
+
+def getAccountID() -> str:
+    accountID = request.headers.get('ACCOUNT-ID', None)
+    accountID = request.headers.get('ACCOUNT-ID', 'test') # TODO: TO REMOVE
+    if not accountID:
+        Informer.sendWarn('OPERATION WITHOUT ACCOUNT ID')
+        raise RequestWithoutExchangeException() # TODO:
+    
+    return accountID

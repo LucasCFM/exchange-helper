@@ -1,2 +1,2 @@
 class Funding(object):
-    class # TODO
+    pass # TODO:

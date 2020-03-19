@@ -11,11 +11,21 @@ APP_CONFIG = Config().config_vars
 logger = getLogger()
 
 
-def getInfo():
+def getPosition():
     logger.info(f'Leverage API : {__name__}')
     pass
 
 
-def getAll():
+def getBalance():
+    logger.info(f'Leverage API : {__name__}')
+    pass
+
+
+def getLeverage():
+    logger.info(f'Leverage API : {__name__}')
+    pass
+
+
+def changeLeverage():
     logger.info(f'Leverage API : {__name__}')
     pass
